@@ -28,72 +28,102 @@ class _LoginScreenState extends State<LoginScreen> {
         centerTitle: true,
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: MediaQuery.of(context).size.width / 2,
-              child: TextField(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextField(
                 controller: _emailController,
-                decoration: const InputDecoration(hintText: 'Email'),
-              ),
-            ),
-            const SizedBox(
-              height: 30.0,
-            ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width / 2,
-              child: TextField(
-                controller: _passwordController,
-                obscureText: true,
-                decoration: const InputDecoration(
-                  hintText: 'Password',
+                decoration: InputDecoration(
+                  hintText: 'Email',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  disabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 30.0,
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                print(
-                    'Email: ${_emailController.text}, Password: ${_passwordController.text}');
-                final response = await _firebaseAuthService.loginUser(
-                  email: _emailController.text,
-                  password: _passwordController.text,
-                );
-                if (response) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Login Successful!!!"),
-                    ),
-                  );
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => const HomeScreen()));
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Error occured during create account"),
-                    ),
-                  );
-                }
-              },
-              child: const Text('Login'),
-            ),
-            const SizedBox(
-              height: 30.0,
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const CreateAccountScreen(),
+              const SizedBox(
+                height: 30.0,
+              ),
+              TextField(
+                controller: _passwordController,
+                obscureText: true,
+                decoration: InputDecoration(
+                  hintText: 'Password',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
                   ),
-                );
-              },
-              child: const Text('Create Account'),
-            ),
-          ],
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  disabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 30.0,
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 55,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    print(
+                        'Email: ${_emailController.text}, Password: ${_passwordController.text}');
+                    final response = await _firebaseAuthService.loginUser(
+                      email: _emailController.text,
+                      password: _passwordController.text,
+                    );
+                    if (response) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Login Successful!!!"),
+                        ),
+                      );
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => const HomeScreen()));
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Error occured during login"),
+                        ),
+                      );
+                    }
+                  },
+                  style: const ButtonStyle(
+                    backgroundColor: WidgetStatePropertyAll(Colors.green),
+                  ),
+                  child: const Text(
+                    'Login',
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 30.0,
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const CreateAccountScreen(),
+                    ),
+                  );
+                },
+                child: const Text(
+                  'Create Account',
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
